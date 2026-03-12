@@ -1,104 +1,418 @@
-/* CSS Variables for Theme Management */
+/* Retro theme + app-level styles.
+   Intentionally vanilla CSS (no frameworks) to keep the template lightweight. */
+
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+    --font-sans: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+    /* Retro neon palette (light) */
+    --bg: #0b1020;
+    --surface: rgba(255, 255, 255, 0.06);
+    --surface-2: rgba(255, 255, 255, 0.10);
+    --border: rgba(255, 255, 255, 0.16);
+    --text: rgba(255, 255, 255, 0.92);
+    --text-dim: rgba(255, 255, 255, 0.70);
+
+    --neon-pink: #ff3ea5;
+    --neon-cyan: #2ee9ff;
+    --neon-purple: #7c5cff;
+    --neon-yellow: #ffd166;
+    --good: #20c997;
+    --bad: #ff4d4f;
+
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    --focus: 0 0 0 3px rgba(46, 233, 255, 0.35);
+
+    --cell-size: 44px;
+    --cell-font-size: 18px;
 }
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
+[data-theme='light'] {
+    --bg: #0b1020;
+    --surface: rgba(255, 255, 255, 0.06);
+    --surface-2: rgba(255, 255, 255, 0.10);
+    --border: rgba(255, 255, 255, 0.16);
+    --text: rgba(255, 255, 255, 0.92);
+    --text-dim: rgba(255, 255, 255, 0.70);
 }
 
-.App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+[data-theme='dark'] {
+    /* Dark is slightly deeper + more contrast */
+    --bg: #070b16;
+    --surface: rgba(255, 255, 255, 0.05);
+    --surface-2: rgba(255, 255, 255, 0.09);
+    --border: rgba(255, 255, 255, 0.18);
+    --text: rgba(255, 255, 255, 0.94);
+    --text-dim: rgba(255, 255, 255, 0.72);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+html,
+body,
+#root {
+    height: 100%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background:
+        radial-gradient(1200px 800px at 20% 0%, rgba(124, 92, 255, 0.16), transparent 60%),
+        radial-gradient(1200px 800px at 80% 0%, rgba(46, 233, 255, 0.14), transparent 60%),
+        radial-gradient(1200px 800px at 50% 90%, rgba(255, 62, 165, 0.12), transparent 55%),
+        var(--bg);
+    color: var(--text);
 }
 
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
+a {
+    color: var(--neon-cyan);
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+* {
+    box-sizing: border-box;
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+:focus-visible {
+    outline: none;
+    box-shadow: var(--focus);
+    border-radius: 10px;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+.appShell {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.35);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.topbarInner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
+.brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    letter-spacing: 0.4px;
+}
+
+.brandTitle {
+    font-weight: 800;
+    font-size: 18px;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+}
+
+.brandTitle span {
+    color: var(--neon-cyan);
+}
+
+.badge {
     font-size: 12px;
-  }
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-dim);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 18px 16px 28px;
+}
+
+.card {
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.04));
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+.cardHeader {
+    padding: 16px 16px 0;
+}
+
+.cardTitle {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+.cardSub {
+    margin: 8px 0 0;
+    color: var(--text-dim);
+    font-size: 14px;
+}
+
+.cardBody {
+    padding: 16px;
+}
+
+.gridLayout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+@media (min-width: 980px) {
+    .gridLayout {
+        grid-template-columns: 1fr 320px;
+        align-items: start;
+    }
+}
+
+.btn {
+    appearance: none;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text);
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(46, 233, 255, 0.45);
+}
+
+.btn:active {
+    transform: translateY(0px);
+}
+
+.btnPrimary {
+    border-color: rgba(46, 233, 255, 0.55);
+    background: linear-gradient(135deg, rgba(46, 233, 255, 0.22), rgba(124, 92, 255, 0.18));
+}
+
+.btnDanger {
+    border-color: rgba(255, 77, 79, 0.55);
+    background: rgba(255, 77, 79, 0.14);
+}
+
+.btnSmall {
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+.btnGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.select,
+.inputText {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.20);
+    color: var(--text);
+    padding: 10px 12px;
+    font-weight: 600;
+}
+
+.label {
+    display: block;
+    margin: 0 0 6px;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.kbd {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text);
+}
+
+.hr {
+    border: none;
+    height: 1px;
+    background: var(--border);
+    margin: 14px 0;
+}
+
+.sudokuWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sudokuGrid {
+    display: grid;
+    grid-template-columns: repeat(9, var(--cell-size));
+    grid-template-rows: repeat(9, var(--cell-size));
+    justify-content: center;
+    gap: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+
+@media (max-width: 460px) {
+    :root {
+        --cell-size: 38px;
+        --cell-font-size: 16px;
+    }
+}
+
+.cell {
+    position: relative;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(0, 0, 0, 0.22);
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: var(--cell-font-size);
+    color: var(--text);
+    user-select: none;
+}
+
+.cell.thickRight {
+    border-right: 2px solid rgba(46, 233, 255, 0.38);
+}
+
+.cell.thickBottom {
+    border-bottom: 2px solid rgba(46, 233, 255, 0.38);
+}
+
+.cell.given {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.cell.selected {
+    outline: none;
+    background: rgba(46, 233, 255, 0.14);
+}
+
+.cell.peer {
+    background: rgba(124, 92, 255, 0.14);
+}
+
+.cell.conflict {
+    background: rgba(255, 77, 79, 0.18);
+    box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.35) inset;
+}
+
+.cell.sameValue {
+    background: rgba(255, 209, 102, 0.12);
+}
+
+.cellValue {
+    font-weight: 900;
+    letter-spacing: 0.6px;
+}
+
+.notes {
+    position: absolute;
+    inset: 3px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 1px;
+    align-items: center;
+    justify-items: center;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.66);
+    pointer-events: none;
+}
+
+.statusRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    font-size: 13px;
+}
+
+.pill {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.toastRegion {
+    position: fixed;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    gap: 8px;
+    z-index: 20;
+    width: min(520px, calc(100vw - 24px));
+}
+
+.toast {
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(10px);
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+    font-size: 14px;
+}
+
+.toast.good {
+    border-color: rgba(32, 201, 151, 0.55);
+}
+
+.toast.bad {
+    border-color: rgba(255, 77, 79, 0.55);
+}
+
+.helperText {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.4;
+}
+
+.srOnly {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
 }
